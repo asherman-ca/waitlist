@@ -1,0 +1,39 @@
+<form ng-submit="vm.addParty()" class="form-inline party-form"> <!--the ng-submit part means that whenever someone hits enter or the button, it'll run the addparty function-->
+    <div class="form-group">
+    <input ng-model="vm.newParty.name" type="text" class="form-control" placeholder="name" required>
+    </div>
+    <div class="form-group">
+    <input ng-model="vm.newParty.phone" type="text" class="form-control" placeholder="phone" required>
+    </div>
+    <div class="form-group">
+    <input ng-model="vm.newParty.size" type="number" class="form-control" placeholder="Size of party" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add party</button>
+</form>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th>Done?</th>
+        <th>Info?</th>
+        <th>Notified?</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="party in vm.parties"> <!--ng-repeat will query firebase for data and repeat for each array entry-->
+        <td>
+            <input ng-model="party.done" ng-change="vm.toggleDone(party)" type="checkbox"> <!--we wanna bind the value of this checkbox to party.done. ng-change runs a function on every change-->
+        </td>    
+        <td>
+        <div><strong>{{ party.name }} {{ party.size }} people</strong></div>
+        <div>{{ party.phone }}</div>
+        </td>
+        <td>
+            <div>{{ party.notified ? 'Yes' : 'No' }}</div> <!--if notified = true, then yes, else no. Using jscript function inside html is called interpolation-->
+        </td>
+        <td>
+            <button ng-click="vm.sendTextMessage(party)" class="btn btn-success">Send SMS</button>
+            <button ng-click="vm.removeParty(party)" class="btn btn-danger">Remove</button> <!--this party is gonna match up with the party from party from the ng-repeat-->
+        </td>
+    </tr> 
+</table>
